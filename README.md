@@ -1,108 +1,135 @@
-## Create-React-App-Lambda
+# React - Countries List
 
-This project is a reference demo showing you how to use [Create React App v3](https://github.com/facebookincubator/create-react-app) and [netlify-lambda v1](https://github.com/netlify/netlify-lambda) together in a [Netlify Dev](https://www.netlify.com/docs/cli/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex#netlify-dev-beta) workflow. You can clone this and immediately be productive with a React app with serverless Netlify Functions in the same repo. Alternatively you can deploy straight to Netlify with this one-click Deploy:
+## Submission Instrions [Please note]
 
+### Maximum Marks - 10
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/create-react-app-lambda&utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex)
+- Do not push node_modules to github
+- Rubrics / Marking Scheme is below ( we will convert this back to a scale of 10 )
 
-> ⚠️NOTE: You may not need this project at all. [Netlify Dev](https://github.com/netlify/netlify-dev-plugin) works with `create-react-app` out of the box! Only use `netlify-lambda` if you need a build step for your functions, eg if you want to use Babel or TypeScript ([see its README for details](https://github.com/netlify/netlify-lambda/blob/master/README.md#netlify-lambda)).
-
-## Project Setup
-
-**Source**: The main addition to base Create-React-App is a new folder: `src/lambda`. This folder is specified and can be changed in the `package.json` script: `"build:lambda": "netlify-lambda build src/lambda"`.
-
-**Dist**: Each JavaScript file in there will be built for Netlify Function deployment in `/built-lambda`, specified in [`netlify.toml`](https://www.netlify.com/docs/netlify-toml-reference/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex).
-
-As an example, we've included a small `src/lambda/hello.js` function, which will be deployed to `/.netlify/functions/hello`. We've also included an async lambda example using async/await syntax in `async-dadjoke.js`.
-
-## Video
-
-Learn how to set this up yourself (and why everything is the way it is) from scratch in a video: https://www.youtube.com/watch?v=3ldSM98nCHI
-
-## Babel/webpack compilation
-
-All functions (inside `src/lambda`) are compiled with webpack using Babel, so you can use modern JavaScript, import npm modules, etc., without any extra setup.
-
-## Local Development
-
-```bash
-## prep steps for first time users
-npm i -g netlify-cli # Make sure you have the [Netlify CLI](https://github.com/netlify/cli) installed
-git clone https://github.com/netlify/create-react-app-lambda ## clone this repo
-cd create-react-app-lambda ## change into this repo
-yarn # install all dependencies
-
-## done every time you start up this project
-ntl dev ## nice shortcut for `netlify dev`, starts up create-react-app AND a local Node.js server for your Netlify functions
+```
+✅ Able to submit and run the application - 1 mark
+✅ CountriesCard works correctly - 1 mark
+✅ Pagination component works correctly - 1 mark
+✅ Should render Countries data correctly - 4 mark
+✅ Should work with pagination correctly - 3 mark
 ```
 
-This fires up [Netlify Dev](https://www.netlify.com/docs/cli/?utm_source=github&utm_medium=swyx-CRAL&utm_campaign=devex#netlify-dev-beta), which:
+## Description
 
-- Detects that you are running a `create-react-app` project and runs the npm script that contains `react-scripts start`, which in this project is the `start` script
-- Detects that you use `netlify-lambda` as a [function builder](https://github.com/netlify/netlify-dev-plugin/#function-builders-function-builder-detection-and-relationship-with-netlify-lambda), and runs the npm script that contains `netlify-lambda build`, which in this project is the `build:lambda` script.
+- You need to make an application which lists Countries from an api
+- User should be able to apply pagination
+- [Video Explainer](https://masai-course.s3.ap-south-1.amazonaws.com/material/videos/35766/eXbOoPOlEDe2qAJwPFRACRw7ukps2X8OQPRBTBiB.mp4)
 
-You can view the project locally via Netlify Dev, via `localhost:8888`.
+## Boilerplate
 
-Each function will be available at the same port as well:
+- You are given a set of Components
+- Countries.jsx
+- CountriesCard.jsx
+- CountriesCard.module.css
+- LoadingIndicator.jx
+- Pagination
+  - Pagination component which will have prev, next, current and total pages
+- You are given these dummy elements (anything with data-testid you should not remove or change the attribute values)
 
-- `http://localhost:8888/.netlify/functions/hello` and 
-- `http://localhost:8888/.netlify/functions/async-dadjoke`
+## Installation - CRA - Recommended
 
-## Deployment
+- **you may use nvm use 14, if that does not work you can try 16 or later**
+- The time provided is also inclusive of installation and setup
 
-During deployment, this project is configured, inside `netlify.toml` to run the build `command`: `yarn build`.
+```
+// install npm packages
+npm install
 
-`yarn build` corresponds to the npm script `build`, which uses `npm-run-all` (aka `run-p`) to concurrently run `"build:app"` (aka `react-scripts build`) and `build:lambda` (aka `netlify-lambda build src/lambda`).
+// start application locally
+npm run start
 
-## Typescript
-
-<details>
-  <summary>
-    <b id="typescript">Click for instructions</b>
-  </summary>
-
-You can use Typescript in both your frontend React code (with `react-scripts` v2.1+) and your serverless functions (with `netlify-lambda` v1.1+). Follow these instructions:
-
-1. `yarn add -D typescript @types/node @types/react @types/react-dom @babel/preset-typescript @types/aws-lambda`
-2. convert `src/lambda/hello.js` to `src/lambda/hello.ts`
-3. use types in your event handler:
-
-```ts
-import { Handler, Context, Callback, APIGatewayEvent } from 'aws-lambda'
-
-interface HelloResponse {
-  statusCode: number
-  body: string
-}
-
-const handler: Handler = (event: APIGatewayEvent, context: Context, callback: Callback) => {
-  const params = event.queryStringParameters
-  const response: HelloResponse = {
-    statusCode: 200,
-    body: JSON.stringify({
-      msg: `Hello world ${Math.floor(Math.random() * 10)}`,
-      params,
-    }),
-  }
-
-  callback(undefined, response)
-}
-
-export { handler }
+// test locally
+npm run test
 ```
 
-rerun and see it work!
+- the system on cp.masaischool.com may take between 1-20 minutes for responding,
+- so we request you to read the problem carefully and debug before itself
+- we also request you to not to just submit it last minute
+- try to keep one submission at a time
 
-You are free to set up your `tsconfig.json` and `tslint` as you see fit.
+## Alternate installation ( using Codesandbox )
 
-</details>
+- If you are facing difficulty with setting CRA locally
+- use the following link `https://codesandbox.io/s/c2-problem-hdjsn7`
+- please make sure you are logged in
+- you can fork or create a new copy of the codesandbox
+- ![Fork](https://masai-course.s3.ap-south-1.amazonaws.com/editor/uploads/2022-09-11/Screenshot%202022-09-11%20at%2010.52.33%20PM_721655.png)
+- You can view tests on codesandbox here
+- ![Test Suite](https://masai-course.s3.ap-south-1.amazonaws.com/editor/uploads/2022-09-11/Screenshot%202022-09-11%20at%2010.54.50%20PM_522331.png)
+- Export to zip when you are done
+- ![Export to Zip](https://masai-course.s3.ap-south-1.amazonaws.com/editor/uploads/2022-09-11/Screenshot%202022-09-11%20at%2010.53.51%20PM_449006.png)
+- After downloading, move it to your masai course repo
+- submit it to the assignment on Coding Platform
+- It will judge your score, this will be the final score
+- We will not accept codesandbox links as submissions
 
-**If you want to try working in Typescript on the client and lambda side**: There are a bunch of small setup details to get right. Check https://github.com/sw-yx/create-react-app-lambda-typescript for a working starter.
+## Requirements
 
-## Routing and authentication with Netlify Identity
+- API details
+- `url`: `https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-countries`
+- **query params**:
+  - `page`: a number representing the page number
+  - `limit`: a number representing total number of results per page
+  - `orderBy`: order the countries in ascending or descending manner, based on the price field
+- **response**
+  - `data`: array of countries
+  - `totalPages`: number representing no of pages
+- example `https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-countries?page=2&limit=5&orderBy=desc`
+- By default when the user loads the page, the user should be shown a set of countries
+  - of page 1
+  - 10 per page
+- You cannot use JSON server
+- use useEffect to display the data on the UI
 
-For a full demo of routing and authentication, check this branch: https://github.com/netlify/create-react-app-lambda/pull/18 This example will not be maintained but may be helpful.
+- `Countries`
 
-## Service Worker
+  - It should contain a LoadingIndicator component by default ( use Conditional rendering ) when the API request is being made
+    - dont show any other UI when API is loading
+    - when the page loads, display loading indicator
+  - You need to make an api call and fetch countries data when the component is mounted
+    - you should fetch ten (10) countries per page
+    - it should be page 1 by default
+    - you dont need to pass the orderBy parameter ( only page, and limit )
+  - After we fetch countries data, hide the loading indicator
+  - Display the list of CountriesCard, and pass appropriate data
+  - Display Pagination component at the bottom
+  - Use useEffect to make the API calls
+  - when the page numbers change, the data also has to change accordingly
+  - when the API is loading, the loading indicator should be shown again
+  - **Important** Please make sure only the Loading Indicator component is shown when API is loading
 
-`create-react-app`'s default service worker (in `src/index.js`) does not work with lambda functions out of the box. It prevents calling the function and returns the app itself instead ([Read more](https://github.com/facebook/create-react-app/issues/2237#issuecomment-302693219)). To solve this you have to eject and enhance the service worker configuration in the webpack config. Whitelist the path of your lambda function and you are good to go.
+- `LoadingIndicator`
+
+  - it has an element with the following attribute
+    - `data-testid="loading-indicator"`
+  - it has the text `...Loading`
+  - it will be shown when the api is loading
+  - Please hide all other elements in the UI when the API is loading
+
+- `Pagination`
+
+  - it will accept the following properties
+    - **current** - a number representing the current page
+    - **onChange** - a callback which will be given the new page number `(page)=>{})`
+      - it should be added to any button (like Prev, Next and current page)
+    - **total** - a number representing the total pages present in the list
+  - by default the Prev button (data-testid="prev-button") should be disabled
+  - the Next button (data-testid="next-button") should be disabled if you are on the last page
+  - The current page should be shown in the button with data-testid `current-page`
+  - The total pages should be shown in component, under the element with `data-testid="total-pages"`
+    - When clicking you should make a new request and it should show the results in the UI
+  - on click of any `button` the new page number will be sent to the onChange callback.
+
+- `CountriesCard`
+  - Component to display information of a info about the country
+  - it should accept the following props
+    - **country** - the title of the country
+      - `data-testid="country-card-name"`
+    - **population** - The populaton of the Country
+      - `data-testid="country-card-population"`
